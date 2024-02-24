@@ -10,14 +10,19 @@ class RepoError(Exception):
 
 if len(sys.argv) == 1:
     raise RepoError("repo not provided")
+
 os.chdir(sys.argv[1])
+branches = glob.glob("**", root_dir=".git/refs/heads")
 
 if len(sys.argv) == 2:
     if ".git" not in glob.iglob("**", include_hidden=True):
         raise RepoError("not a repo")
 
-    print(*glob.iglob("**", root_dir=".git/refs/heads"))
+    print(*branches)
     sys.exit(0)
+
+if sys.argv[2] not in branches:
+    raise RepoError(f"branch '{sys.argv[2]}' doesn't exist")
 
 with open(f".git/refs/heads/{sys.argv[2]}") as f:
     sha = f.read(40)
