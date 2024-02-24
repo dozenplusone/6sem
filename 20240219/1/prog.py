@@ -17,22 +17,22 @@ def getTreeParentId(commitId: str):
     return treeId, parentId
 
 
-def printTree(treeId):
-    with open(f".git/objects/{treeId[:2]}/{treeId[2:]}", "rb") as f:
-        tree = zlib.decompress(f.read()).partition(b'\x00')[2]
+def printSingleTreeObj(tree):
     attrXname, _, idXtree = tree.partition(b'\x00')
     name = attrXname.partition(b' ')[2].decode()
     id, tree = idXtree[:20].hex(), idXtree[20:]
     with open(f".git/objects/{id[:2]}/{id[2:]}", "rb") as f:
         _type = zlib.decompress(f.read()).partition(b' ')[0].decode()
     print(_type, id, name)
-    while tree:
-        attrXname, _, idXtree = tree.partition(b'\x00')
-        name = attrXname.partition(b' ')[2].decode()
-        id, tree = idXtree[:20].hex(), idXtree[20:]
-        with open(f".git/objects/{id[:2]}/{id[2:]}", "rb") as f:
-            _type = zlib.decompress(f.read()).partition(b' ')[0].decode()
-        print(_type, id, name)
+    return tree
+
+
+def printTree(treeId):
+    with open(f".git/objects/{treeId[:2]}/{treeId[2:]}", "rb") as f:
+        tree = zlib.decompress(f.read()).partition(b'\x00')[2]
+
+    while tree := printSingleTreeObj(tree):
+        pass
 
 
 if len(sys.argv) == 1:
