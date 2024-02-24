@@ -12,12 +12,11 @@ if len(sys.argv) == 1:
     raise RepoError("repo not provided")
 
 os.chdir(sys.argv[1])
+if ".git" not in glob.iglob("**", include_hidden=True):
+    raise RepoError("not a repo")
+
 branches = glob.glob("**", root_dir=".git/refs/heads")
-
 if len(sys.argv) == 2:
-    if ".git" not in glob.iglob("**", include_hidden=True):
-        raise RepoError("not a repo")
-
     print(*branches)
     sys.exit(0)
 
