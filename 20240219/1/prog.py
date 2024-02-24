@@ -49,7 +49,10 @@ if ".git" not in glob.iglob("**", include_hidden=True):
 
 branches = glob.glob("**", root_dir=".git/refs/heads")
 if len(sys.argv) == 2:
-    print(*branches)
+    if branches:
+        print(*branches, sep='\n')
+    else:
+        print("(no branches yet)")
     sys.exit(0)
 
 if sys.argv[2] not in branches:
