@@ -11,6 +11,7 @@ class RepoError(Exception):
 def getTreeParentId(commitId: str):
     with open(f".git/objects/{commitId[:2]}/{commitId[2:]}", "rb") as f:
         commit = zlib.decompress(f.read()).partition(b'\x00')[2]
+
     tree, _, commit = commit.partition(b'\n')
     treeId = tree.partition(b' ')[2].decode()
     parentId = commit[7:47].decode() if commit.startswith(b"parent") else None
@@ -23,11 +24,12 @@ def printSingleTreeObj(tree):
     id, tree = idXtree[:20].hex(), idXtree[20:]
     with open(f".git/objects/{id[:2]}/{id[2:]}", "rb") as f:
         _type = zlib.decompress(f.read()).partition(b' ')[0].decode()
+
     print(_type, id, name)
     return tree
 
 
-def printTree(treeId):
+def printTree(treeId: str):
     with open(f".git/objects/{treeId[:2]}/{treeId[2:]}", "rb") as f:
         tree = zlib.decompress(f.read()).partition(b'\x00')[2]
 
@@ -60,6 +62,7 @@ print(commit)
 print("TREE for commit", sha)
 tree, sha = getTreeParentId(sha)
 printTree(tree)
+
 while sha is not None:
     print("TREE for commit", sha)
     tree, sha = getTreeParentId(sha)
