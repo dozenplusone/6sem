@@ -33,6 +33,9 @@ def printTree(treeId: str):
     with open(f".git/objects/{treeId[:2]}/{treeId[2:]}", "rb") as f:
         tree = zlib.decompress(f.read()).partition(b'\x00')[2]
 
+    if not tree:
+        print("(empty)")
+        return
     while tree := printSingleTreeObj(tree):
         pass
 
