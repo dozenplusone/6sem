@@ -8,12 +8,13 @@ class RepoError(Exception):
     pass
 
 
-def getTreeId(commitId: str):
+def getTreeParentId(commitId: str):
     with open(f".git/objects/{commitId[:2]}/{commitId[2:]}", "rb") as f:
         commit = zlib.decompress(f.read()).partition(b'\x00')[2]
     tree, _, commit = commit.partition(b'\n')
     treeId = tree.partition(b' ')[2].decode()
-    return treeId
+    parentId = commit[7:47].decode() if commit.startswith(b"parent") else None
+    return treeId, parentId
 
 
 def printTree(treeId):
@@ -52,4 +53,10 @@ with open(f".git/objects/{sha[:2]}/{sha[2:]}", "rb") as f:
     commit = zlib.decompress(f.read()).partition(b'\x00')[2].decode().rstrip()
 print(commit)
 
-printTree(getTreeId(sha))
+print("TREE for commit", sha)
+tree, sha = getTreeParentId(sha)
+printTree(tree)
+while sha is not None:
+    print("TREE for commit", sha)
+    tree, sha = getTreeParentId(sha)
+    printTree(tree)
