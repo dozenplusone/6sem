@@ -3,15 +3,19 @@ import sys
 
 
 x, y = 0, 0
+monsters = {}
 
-while cmd := sys.stdin.readline():
-    match cmd.strip():
-        case "up":
-            y = y - 1 if y > 0 else 9
-        case "down":
-            y = y + 1 if y < 9 else 0
-        case "left":
-            x = x - 1 if x > 0 else 9
-        case "right":
-            x = x + 1 if x < 9 else 0
-    print("Moved to", (x, y))
+while cmd := sys.stdin.readline().split():
+    match cmd:
+        case ["up" | "down" | "left" | "right"]:
+            if cmd[0] == "up":
+                y = y - 1 if y > 0 else 9
+            elif cmd[0] == "down":
+                y = y + 1 if y < 9 else 0
+            elif cmd[0] == "left":
+                x = x - 1 if x > 0 else 9
+            elif cmd[0] == "right":
+                x = x + 1 if x < 9 else 0
+            print("Moved to", (x, y))
+        case ["addmon", x, y, hello]:
+            monsters[int(x), int(y)] = hello
