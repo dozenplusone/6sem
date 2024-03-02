@@ -14,3 +14,4 @@ while cmd := sys.stdin.readline():
             x = x - 1 if x > 0 else 9
         case "right":
             x = x + 1 if x < 9 else 0
+    print("Moved to", (x, y))
