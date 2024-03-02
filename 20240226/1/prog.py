@@ -24,3 +24,5 @@ while cmd := sys.stdin.readline().split():
             print("Added monster to", p, "saying", hello)
             if flag:
                 print("Replaced the old monster")
+        case _:
+            print("Invalid command")
