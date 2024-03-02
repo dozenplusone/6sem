@@ -18,4 +18,9 @@ while cmd := sys.stdin.readline().split():
                 x = x + 1 if x < 9 else 0
             print("Moved to", (x, y))
         case ["addmon", x, y, hello]:
-            monsters[int(x), int(y)] = hello
+            p = int(x), int(y)
+            flag = p in monsters
+            monsters[p] = hello
+            print("Added monster to", p, "saying", hello)
+            if flag:
+                print("Replaced the old monster")
