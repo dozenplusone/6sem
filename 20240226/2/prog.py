@@ -3,8 +3,8 @@ import sys
 
 
 def encounter(x, y):
-    text = monsters[x, y][1]
-    print(cowsay.cowsay(text))
+    name, text = monsters[x, y]
+    print(cowsay.cowsay(text, cow=name))
 
 
 x, y = 0, 0
