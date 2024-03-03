@@ -3,7 +3,8 @@ import sys
 
 
 def encounter(x, y):
-    print(cowsay.cowsay(monsters[x, y]))
+    text = monsters[x, y][1]
+    print(cowsay.cowsay(text))
 
 
 x, y = 0, 0
@@ -29,15 +30,16 @@ while cmd := sys.stdin.readline().split():
                 encounter(*p)
         case ["addmon", *args]:
             try:
-                _x, _y, hello = int(args[0]), int(args[1]), args[2]
+                _x, _y = int(args[1]), int(args[2])
+                name, hello = args[0], args[3]
                 assert 0 <= _x <= 9 and 0 <= _y <= 9
             except Exception:
                 print("Invalid arguments")
                 continue
             p = _x, _y
             flag = p in monsters
-            monsters[p] = hello
-            print("Added monster to", p, "saying", hello)
+            monsters[p] = name, hello
+            print("Added monster", name, "to", p, "saying", hello)
             if flag:
                 print("Replaced the old monster")
         case _:
