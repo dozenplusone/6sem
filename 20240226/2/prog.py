@@ -36,6 +36,9 @@ while cmd := sys.stdin.readline().split():
             except Exception:
                 print("Invalid arguments")
                 continue
+            if name not in cowsay.list_cows():
+                print("Cannot add unknown monster")
+                continue
             p = _x, _y
             flag = p in monsters
             monsters[p] = name, hello
