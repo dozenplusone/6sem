@@ -2,6 +2,22 @@ import cowsay
 import sys
 
 
+class Player:
+    def __init__(self, x: int = 0, y: int = 0):
+        self.x, self.y = x, y
+
+    def move(self, dir: str):
+        if dir == "up":
+            self.y = self.y - 1 if self.y > 0 else 9
+        elif dir == "down":
+            self.y = self.y + 1 if self.y < 9 else 0
+        elif dir == "left":
+            self.x = self.x - 1 if self.x > 0 else 9
+        elif dir == "right":
+            self.x = self.x + 1 if self.x < 9 else 0
+        print("Moved to", (self.x, self.y))
+
+
 def encounter(x, y):
     name, text = monsters[x, y]
     print(cowsay.cowsay(text, cow=name))
