@@ -33,7 +33,7 @@ def encounter(x, y):
     print(cowsay.cowsay(monster.text, cow=monster.name))
 
 
-x, y = 0, 0
+p1 = Player()
 
 while cmd := sys.stdin.readline().split():
     match cmd:
@@ -41,18 +41,9 @@ while cmd := sys.stdin.readline().split():
             if len(args) > 0:
                 print("Invalid arguments")
                 continue
-            if cmd[0] == "up":
-                y = y - 1 if y > 0 else 9
-            elif cmd[0] == "down":
-                y = y + 1 if y < 9 else 0
-            elif cmd[0] == "left":
-                x = x - 1 if x > 0 else 9
-            elif cmd[0] == "right":
-                x = x + 1 if x < 9 else 0
-            p = x, y
-            print("Moved to", p)
-            if p in monsters:
-                encounter(*p)
+            p1.move(cmd[0])
+            if (p1.x, p1.y) in monsters:
+                encounter(p1.x, p1.y)
         case ["addmon", *args]:
             try:
                 _x, _y = int(args[1]), int(args[2])
@@ -66,7 +57,7 @@ while cmd := sys.stdin.readline().split():
                 continue
             p = _x, _y
             flag = p in monsters
-            monsters[p] = name, hello
+            monsters[p] = Monster(name, hello)
             print("Added monster", name, "to", p, "saying", hello)
             if flag:
                 print("Replaced the old monster")
