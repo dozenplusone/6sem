@@ -19,6 +19,9 @@ class Player:
         print("Moved to", (self.x, self.y))
 
 
+p1 = Player()
+
+
 class Monster:
     def __init__(self, name: str, text: str):
         assert name in cowsay.list_cows(), "Cannot add unknown monster"
@@ -33,14 +36,13 @@ def encounter(x, y):
     print(cowsay.cowsay(monster.text, cow=monster.name))
 
 
-p1 = Player()
-
-while cmd := sys.stdin.readline().split():
+def runCmd(cmd: str):
+    cmd = cmd.split()
     match cmd:
         case ["up" | "down" | "left" | "right", *args]:
             if len(args) > 0:
                 print("Invalid arguments")
-                continue
+                return
             p1.move(cmd[0])
             if (p1.x, p1.y) in monsters:
                 encounter(p1.x, p1.y)
@@ -51,10 +53,10 @@ while cmd := sys.stdin.readline().split():
                 assert 0 <= _x <= 9 and 0 <= _y <= 9
             except Exception:
                 print("Invalid arguments")
-                continue
+                return
             if name not in cowsay.list_cows():
                 print("Cannot add unknown monster")
-                continue
+                return
             p = _x, _y
             flag = p in monsters
             monsters[p] = Monster(name, hello)
@@ -63,3 +65,7 @@ while cmd := sys.stdin.readline().split():
                 print("Replaced the old monster")
         case _:
             print("Invalid command")
+
+
+while cmd := sys.stdin.readline():
+    runCmd(cmd)
