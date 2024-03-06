@@ -24,13 +24,15 @@ class Monster:
         self.name, self.text = name, text
 
 
+monsters = {}
+
+
 def encounter(x, y):
-    name, text = monsters[x, y]
-    print(cowsay.cowsay(text, cow=name))
+    monster = monsters[x, y]
+    print(cowsay.cowsay(monster.text, cow=monster.name))
 
 
 x, y = 0, 0
-monsters = {}
 
 while cmd := sys.stdin.readline().split():
     match cmd:
