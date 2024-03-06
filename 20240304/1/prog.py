@@ -21,6 +21,7 @@ class Player:
 
 class Monster:
     def __init__(self, name: str, text: str):
+        assert name in cowsay.list_cows(), "Cannot add unknown monster"
         self.name, self.text = name, text
 
 
