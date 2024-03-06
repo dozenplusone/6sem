@@ -19,6 +19,11 @@ class Player:
         print("Moved to", (self.x, self.y))
 
 
+class Monster:
+    def __init__(self, name: str, text: str):
+        self.name, self.text = name, text
+
+
 def encounter(x, y):
     name, text = monsters[x, y]
     print(cowsay.cowsay(text, cow=name))
