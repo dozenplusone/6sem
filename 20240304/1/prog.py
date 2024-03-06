@@ -40,27 +40,19 @@ def runCmd(cmd: str):
     cmd = cmd.split()
     match cmd:
         case ["up" | "down" | "left" | "right", *args]:
-            if len(args) > 0:
-                print("Invalid arguments")
-                return
+            assert not args, "Invalid arguments"
             p1.move(cmd[0])
             if (p1.x, p1.y) in monsters:
                 encounter(p1.x, p1.y)
         case ["addmon", *args]:
-            try:
-                _x, _y = int(args[1]), int(args[2])
-                name, hello = args[0], args[3]
-                assert 0 <= _x <= 9 and 0 <= _y <= 9
-            except Exception:
-                print("Invalid arguments")
-                return
+            assert args[1].isdecimal() and args[2].isdecimal() \
+                    and len(args) > 3, "Invalid arguments"
+            _x, _y = int(args[1]), int(args[2])
+            assert _x <= 9 and _y <= 9, "Invalid arguments"
+            name, hello = args[0], args[3]
             p = _x, _y
             flag = p in monsters
-            try:
-                monsters[p] = Monster(name, hello)
-            except AssertionError as unk:
-                print(unk)
-                return
+            monsters[p] = Monster(name, hello)
             print("Added monster", name, "to", p, "saying", hello)
             if flag:
                 print("Replaced the old monster")
@@ -69,4 +61,7 @@ def runCmd(cmd: str):
 
 
 while cmd := sys.stdin.readline():
-    runCmd(cmd)
+    try:
+        runCmd(cmd)
+    except AssertionError as err:
+        print(err)
