@@ -4,6 +4,7 @@ import sys
 
 class Player:
     def __init__(self, x: int = 0, y: int = 0):
+        assert 0 <= x <= 9 and 0 <= y <= 9, "Invalid initial position"
         self.x, self.y = x, y
 
     def move(self, dir: str):
