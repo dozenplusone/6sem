@@ -54,12 +54,13 @@ def runCmd(cmd: str):
             except Exception:
                 print("Invalid arguments")
                 return
-            if name not in cowsay.list_cows():
-                print("Cannot add unknown monster")
-                return
             p = _x, _y
             flag = p in monsters
-            monsters[p] = Monster(name, hello)
+            try:
+                monsters[p] = Monster(name, hello)
+            except AssertionError as unk:
+                print(unk)
+                return
             print("Added monster", name, "to", p, "saying", hello)
             if flag:
                 print("Replaced the old monster")
