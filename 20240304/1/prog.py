@@ -24,9 +24,9 @@ p1 = Player()
 
 
 class Monster:
-    def __init__(self, name: str, text: str):
+    def __init__(self, name: str, text: str, hp: int):
         assert name in cowsay.list_cows(), "Cannot add unknown monster"
-        self.name, self.text = name, text
+        self.name, self.text, self.hp = name, text, hp
 
 
 monsters = {}
@@ -53,7 +53,7 @@ def runCmd(cmd: str):
             name, hello = args[0], args[3]
             p = _x, _y
             flag = p in monsters
-            monsters[p] = Monster(name, hello)
+            monsters[p] = Monster(name, hello, 0)
             print("Added monster", name, "to", p, "saying", hello)
             if flag:
                 print("Replaced the old monster")
