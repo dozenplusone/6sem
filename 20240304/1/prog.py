@@ -46,15 +46,20 @@ def runCmd(cmd: str):
             if (p1.x, p1.y) in monsters:
                 encounter(p1.x, p1.y)
         case ["addmon", *args]:
-            assert args[1].isdecimal() and args[2].isdecimal() \
-                    and len(args) > 3, "Invalid arguments"
-            _x, _y = int(args[1]), int(args[2])
-            assert _x <= 9 and _y <= 9, "Invalid arguments"
-            name, hello = args[0], args[3]
+            assert len(args) > 7, "Invalid arguments"
+            coords = args.index("coords")
+            _x, _y = args[coords + 1: coords + 3]
+            hp = args[args.index("hp") + 1]
+            try:
+                _x, _y, hp = int(_x), int(_y), int(hp)
+            except ValueError:
+                print("Invalid arguments")
+                return
+            name, hello = args[0], args[args.index("hello") + 1]
             p = _x, _y
             flag = p in monsters
-            monsters[p] = Monster(name, hello, 0)
-            print("Added monster", name, "to", p, "saying", hello)
+            monsters[p] = Monster(name, hello, hp)
+            print("Added monster", name, f"(hp={hp}) to", p, "saying", hello)
             if flag:
                 print("Replaced the old monster")
         case _:
