@@ -38,7 +38,11 @@ def encounter(x, y):
 
 
 def runCmd(cmd: str):
-    cmd = shlex.split(cmd)
+    try:
+        cmd = shlex.split(cmd)
+    except ValueError:
+        print("Invalid arguments")
+        return
     match cmd:
         case ["up" | "down" | "left" | "right", *args]:
             assert not args, "Invalid arguments"
