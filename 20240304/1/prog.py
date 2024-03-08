@@ -58,7 +58,8 @@ def runCmd(cmd: str):
             if (p1.x, p1.y) in monsters:
                 encounter(p1.x, p1.y)
         case ["addmon", *args]:
-            assert len(args) > 7, "Invalid arguments"
+            assert len(args) > 7 and "coords" in args \
+                    and "hp" in args and "hello" in args, "Invalid arguments"
             coords = args.index("coords")
             _x, _y = args[coords + 1: coords + 3]
             hp = args[args.index("hp") + 1]
