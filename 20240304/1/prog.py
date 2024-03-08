@@ -24,16 +24,24 @@ p1 = Player()
 
 class Monster:
     def __init__(self, name: str, text: str):
-        assert name in cowsay.list_cows(), "Cannot add unknown monster"
+        assert name in cowsay.list_cows() or name == "jgsbat", \
+                "Cannot add unknown monster"
         self.name, self.text = name, text
 
 
 monsters = {}
 
 
+with open("jgsbat.cow") as f:
+    jgsbat = cowsay.read_dot_cow(f)
+
+
 def encounter(x, y):
     monster = monsters[x, y]
-    print(cowsay.cowsay(monster.text, cow=monster.name))
+    if monster.name == "jgsbat":
+        print(cowsay.cowsay(monster.text, cowfile=jgsbat))
+    else:
+        print(cowsay.cowsay(monster.text, cow=monster.name))
 
 
 def runCmd(cmd: str):
