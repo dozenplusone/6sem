@@ -1,4 +1,5 @@
 import cowsay
+import shlex
 import sys
 
 
@@ -45,7 +46,7 @@ def encounter(x, y):
 
 
 def runCmd(cmd: str):
-    cmd = cmd.split()
+    cmd = shlex.split(cmd)
     match cmd:
         case ["up" | "down" | "left" | "right", *args]:
             assert not args, "Invalid arguments"
