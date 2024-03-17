@@ -51,6 +51,25 @@ def movePlayer(player: Player, dir: str):
         encounter(player.x, player.y)
 
 
+def parse_addmon(args: list[str]):
+    assert len(args) > 7 and all(w in args for w in ("hello", "hp", "coords"))
+    arg = {"name": args[0]}
+    i = 1
+    while i < len(args):
+        if args[i] == "hello":
+            arg["text"] = args[i + 1]
+            i += 1
+        elif args[i] == "hp":
+            arg["hp"] = int(args[i + 1])
+            i += 1
+        elif args[i] == "coords":
+            x_y = int(args[i + 1]), int(args[i + 2])
+            assert 0 <= x_y[0] <= 9 and 0 <= x_y[1] <= 9
+            i += 2
+        i += 1
+    return x_y, arg
+
+
 def runCmd(cmd: str):
     try:
         cmd = shlex.split(cmd)
@@ -62,21 +81,15 @@ def runCmd(cmd: str):
             assert not args, "Invalid arguments"
             movePlayer(p1, cmd[0])
         case ["addmon", *args]:
-            assert len(args) > 7 and "coords" in args \
-                    and "hp" in args and "hello" in args, "Invalid arguments"
-            coords = args.index("coords")
-            _x, _y = args[coords + 1: coords + 3]
-            hp = args[args.index("hp") + 1]
             try:
-                _x, _y, hp = int(_x), int(_y), int(hp)
-            except ValueError:
+                p, arg = parse_addmon(args)
+            except Exception:
                 print("Invalid arguments")
                 return
-            name, hello = args[0], args[args.index("hello") + 1]
-            p = _x, _y
             flag = p in monsters
-            monsters[p] = Monster(name, hello, hp)
-            print("Added monster", name, f"(hp={hp}) to", p, "saying", hello)
+            monsters[p] = Monster(**arg)
+            print("Added monster", arg["name"], f"(hp={arg['hp']}) to", p,
+                  "saying", arg["text"])
             if flag:
                 print("Replaced the old monster")
         case _:
