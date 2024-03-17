@@ -33,6 +33,7 @@ class Player:
                   monsters[self.x, self.y].hp)
         else:
             print(monsters[self.x, self.y].name, "died")
+            del monsters[self.x, self.y]
 
 
 p1 = Player()
