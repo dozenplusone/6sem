@@ -19,8 +19,7 @@ class Player:
         elif dir == "right":
             self.x = self.x + 1 if self.x < 9 else 0
         print("Moved to", (self.x, self.y))
-        if (self.x, self.y) in monsters:
-            encounter(self.x, self.y)
+        encounter(self.x, self.y)
 
     def attack(self):
         pass
@@ -40,6 +39,8 @@ monsters = {}
 
 
 def encounter(x, y):
+    if (x, y) not in monsters:
+        return
     monster = monsters[x, y]
     if monster.name in custom:
         print(cowsay.cowsay(monster.text, cowfile=custom[monster.name]))
