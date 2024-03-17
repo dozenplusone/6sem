@@ -1,6 +1,7 @@
 import cowsay
 import shlex
 import sys
+from custom import custom
 
 
 class Player:
@@ -25,7 +26,7 @@ p1 = Player()
 
 class Monster:
     def __init__(self, name: str, text: str, hp: int):
-        assert name in cowsay.list_cows() or name == "jgsbat", \
+        assert name in cowsay.list_cows() or name in custom, \
                 "Cannot add unknown monster"
         self.name, self.text, self.hp = name, text, hp
 
@@ -33,14 +34,10 @@ class Monster:
 monsters = {}
 
 
-with open("jgsbat.cow") as f:
-    jgsbat = cowsay.read_dot_cow(f)
-
-
 def encounter(x, y):
     monster = monsters[x, y]
-    if monster.name == "jgsbat":
-        print(cowsay.cowsay(monster.text, cowfile=jgsbat))
+    if monster.name in custom:
+        print(cowsay.cowsay(monster.text, cowfile=custom[monster.name]))
     else:
         print(cowsay.cowsay(monster.text, cow=monster.name))
 
