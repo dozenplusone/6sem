@@ -27,6 +27,9 @@ class Player:
             return
         damage = min(monsters[self.x, self.y].hp, 10)
         monsters[self.x, self.y].hp -= damage
+        print(f"Attacked {monsters[self.x, self.y].name}, damage {damage} hp")
+        print(f"{monsters[self.x, self.y].name} now has",
+                monsters[self.x, self.y].hp)
 
 
 p1 = Player()
