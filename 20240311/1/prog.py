@@ -94,6 +94,7 @@ def addmon(coords, args):
 
 class CliRunner(cmd.Cmd):
     prompt = ''
+    availables = list(custom) + cowsay.list_cows()
 
     def do_EOF(self, arg):
         print()
@@ -133,6 +134,11 @@ class CliRunner(cmd.Cmd):
 
     def do_attack(self, arg):
         p1.attack(shlex.split(arg)[0])
+
+    def complete_attack(self, text, line, begidx, endidx):
+        last = shlex.split(line)[-2 if text else -1]
+        if last == "attack":
+            return [m for m in self.__class__.availables if m.startswith(text)]
 
 
 if __name__ == "__main__":
