@@ -96,6 +96,7 @@ weapons = {"sword": 10, "spear": 15, "axe": 20}
 
 
 def parse_attack(args: list[str]):
+    assert len(args) > 0 and len(args) != 2, "Invalid arguments"
     ans = {"weapon": "sword", "name": args[0]}
     if len(args) > 2 and "with" == args[1]:
         assert args[2] in weapons, "Unknown weapon"
