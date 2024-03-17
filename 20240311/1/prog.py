@@ -21,7 +21,7 @@ class Player:
         print("Moved to", (self.x, self.y))
         encounter(self.x, self.y)
 
-    def attack(self):
+    def attack(self, name):
         if (self.x, self.y) not in monsters:
             print("No monster here")
             return
@@ -131,10 +131,7 @@ class CliRunner(cmd.Cmd):
             addmon(coords, args)
 
     def do_attack(self, arg):
-        if arg:
-            print("Invalid arguments")
-        else:
-            p1.attack()
+        p1.attack(shlex.split(arg)[0])
 
 
 if __name__ == "__main__":
