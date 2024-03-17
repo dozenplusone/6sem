@@ -83,6 +83,10 @@ def addmon(coords, args):
 class CliRunner(cmd.Cmd):
     prompt = ''
 
+    def do_EOF(self, arg):
+        print()
+        return True
+
     def do_up(self, arg):
         if arg:
             print("Invalid arguments")
