@@ -20,6 +20,9 @@ class Player:
             self.x = self.x + 1 if self.x < 9 else 0
         print("Moved to", (self.x, self.y))
 
+    def attack(self):
+        pass
+
 
 p1 = Player()
 
@@ -114,6 +117,12 @@ class CliRunner(cmd.Cmd):
             print("Invalid arguments")
         else:
             addmon(coords, args)
+
+    def do_attack(self, arg):
+        if arg:
+            print("Invalid arguments")
+        else:
+            p1.attack()
 
 
 if __name__ == "__main__":
