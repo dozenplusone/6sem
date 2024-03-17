@@ -91,6 +91,13 @@ def addmon(coords, args):
         print("Replaced the old monster")
 
 
+weapons = {"sword": 10, "spear": 15, "axe": 20}
+
+
+def parse_attack(args: list[str]):
+    pass
+
+
 class CliRunner(cmd.Cmd):
     prompt = ''
 
@@ -131,8 +138,10 @@ class CliRunner(cmd.Cmd):
             addmon(coords, args)
 
     def do_attack(self, arg):
-        if arg:
-            print("Invalid arguments")
+        try:
+            weapon = parse_attack(shlex.split(arg))
+        except Exception as exc:
+            print(exc)
         else:
             p1.attack()
 
