@@ -22,8 +22,9 @@ class Player:
         encounter(self.x, self.y)
 
     def attack(self, name):
-        if (self.x, self.y) not in monsters:
-            print("No monster here")
+        if ((self.x, self.y) not in monsters
+                or monsters[self.x, self.y].name != name):
+            print(f"No {name} here")
             return
         damage = min(monsters[self.x, self.y].hp, 10)
         monsters[self.x, self.y].hp -= damage
