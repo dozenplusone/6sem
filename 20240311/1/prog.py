@@ -95,7 +95,10 @@ weapons = {"sword": 10, "spear": 15, "axe": 20}
 
 
 def parse_attack(args: list[str]):
-    pass
+    if len(args) > 1 and "with" == args[0]:
+        assert args[1] in weapons, "Unknown weapon"
+        return args[1]
+    return "sword"
 
 
 class CliRunner(cmd.Cmd):
