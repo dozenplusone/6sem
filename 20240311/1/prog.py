@@ -1,3 +1,4 @@
+import cmd
 import cowsay
 import shlex
 import sys
@@ -99,6 +100,16 @@ def runCmd(cmd: str):
             addmon(p, arg)
         case _:
             print("Invalid command")
+
+
+class CliRunner(cmd.Cmd):
+    prompt = ''
+
+    def do_up(self, arg):
+        if arg:
+            print("Invalid arguments")
+        else:
+            movePlayer(p1, "up")
 
 
 print("<<< Welcome to Python-MUD 0.1 >>>")
