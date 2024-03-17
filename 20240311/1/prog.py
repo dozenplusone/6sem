@@ -148,6 +148,11 @@ class CliRunner(cmd.Cmd):
         else:
             p1.attack(weapon)
 
+    def complete_attack(self, text, line, begidx, endidx):
+        last = shlex.split(line)[-2 if text else -1]
+        if last == "with":
+            return [w for w in weapons if w.startswith(text)]
+
 
 if __name__ == "__main__":
     print("<<< Welcome to Python-MUD 0.1 >>>")
