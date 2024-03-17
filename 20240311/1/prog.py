@@ -111,6 +111,24 @@ class CliRunner(cmd.Cmd):
         else:
             movePlayer(p1, "up")
 
+    def do_down(self, arg):
+        if arg:
+            print("Invalid arguments")
+        else:
+            movePlayer(p1, "down")
+
+    def do_left(self, arg):
+        if arg:
+            print("Invalid arguments")
+        else:
+            movePlayer(p1, "left")
+
+    def do_right(self, arg):
+        if arg:
+            print("Invalid arguments")
+        else:
+            movePlayer(p1, "right")
+
 
 print("<<< Welcome to Python-MUD 0.1 >>>")
 
