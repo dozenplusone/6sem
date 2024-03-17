@@ -19,6 +19,8 @@ class Player:
         elif dir == "right":
             self.x = self.x + 1 if self.x < 9 else 0
         print("Moved to", (self.x, self.y))
+        if (self.x, self.y) in monsters:
+            encounter(self.x, self.y)
 
     def attack(self):
         pass
@@ -47,8 +49,6 @@ def encounter(x, y):
 
 def movePlayer(player: Player, dir: str):
     player.move(dir)
-    if (player.x, player.y) in monsters:
-        encounter(player.x, player.y)
 
 
 def parse_addmon(args: list[str]):
