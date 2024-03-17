@@ -21,11 +21,11 @@ class Player:
         print("Moved to", (self.x, self.y))
         encounter(self.x, self.y)
 
-    def attack(self):
+    def attack(self, weapon):
         if (self.x, self.y) not in monsters:
             print("No monster here")
             return
-        damage = min(monsters[self.x, self.y].hp, 10)
+        damage = min(monsters[self.x, self.y].hp, weapons[weapon])
         monsters[self.x, self.y].hp -= damage
         print(f"Attacked {monsters[self.x, self.y].name}, damage {damage} hp")
         if monsters[self.x, self.y].hp > 0:
@@ -146,7 +146,7 @@ class CliRunner(cmd.Cmd):
         except Exception as exc:
             print(exc)
         else:
-            p1.attack()
+            p1.attack(weapon)
 
 
 if __name__ == "__main__":
