@@ -80,27 +80,6 @@ def addmon(coords, args):
         print("Replaced the old monster")
 
 
-def runCmd(cmd: str):
-    try:
-        cmd = shlex.split(cmd)
-    except ValueError:
-        print("Invalid arguments")
-        return
-    match cmd:
-        case ["up" | "down" | "left" | "right", *args]:
-            assert not args, "Invalid arguments"
-            movePlayer(p1, cmd[0])
-        case ["addmon", *args]:
-            try:
-                p, arg = parse_addmon(args)
-            except Exception:
-                print("Invalid arguments")
-                return
-            addmon(p, arg)
-        case _:
-            print("Invalid command")
-
-
 class CliRunner(cmd.Cmd):
     prompt = ''
 
