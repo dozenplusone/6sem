@@ -21,9 +21,10 @@ class Player:
         print("Moved to", (self.x, self.y))
         encounter(self.x, self.y)
 
-    def attack(self, weapon):
-        if (self.x, self.y) not in monsters:
-            print("No monster here")
+    def attack(self, name, weapon):
+        if ((self.x, self.y) not in monsters
+                or monsters[self.x, self.y].name != name):
+            print(f"No {name} here")
             return
         damage = min(monsters[self.x, self.y].hp, weapons[weapon])
         monsters[self.x, self.y].hp -= damage
@@ -95,14 +96,16 @@ weapons = {"sword": 10, "spear": 15, "axe": 20}
 
 
 def parse_attack(args: list[str]):
-    if len(args) > 1 and "with" == args[0]:
-        assert args[1] in weapons, "Unknown weapon"
-        return args[1]
-    return "sword"
+    ans = {"weapon": "sword", "name": args[0]}
+    if len(args) > 2 and "with" == args[1]:
+        assert args[2] in weapons, "Unknown weapon"
+        ans["weapon"] = args[2]
+    return ans
 
 
 class CliRunner(cmd.Cmd):
     prompt = ''
+    availables = list(custom) + cowsay.list_cows()
 
     def do_EOF(self, arg):
         print()
@@ -142,16 +145,18 @@ class CliRunner(cmd.Cmd):
 
     def do_attack(self, arg):
         try:
-            weapon = parse_attack(shlex.split(arg))
+            args = parse_attack(shlex.split(arg))
         except Exception as exc:
             print(exc)
         else:
-            p1.attack(weapon)
+            p1.attack(**args)
 
     def complete_attack(self, text, line, begidx, endidx):
         last = shlex.split(line)[-2 if text else -1]
         if last == "with":
             return [w for w in weapons if w.startswith(text)]
+        elif last == "attack":
+            return [m for m in self.__class__.availables if m.startswith(text)]
 
 
 if __name__ == "__main__":
