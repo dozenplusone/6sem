@@ -129,6 +129,14 @@ class CliRunner(cmd.Cmd):
         else:
             movePlayer(p1, "right")
 
+    def do_addmon(self, arg):
+        try:
+            coords, args = parse_addmon(shlex.split(arg))
+        except Exception:
+            print("Invalid arguments")
+        else:
+            addmon(coords, args)
+
 
 print("<<< Welcome to Python-MUD 0.1 >>>")
 
