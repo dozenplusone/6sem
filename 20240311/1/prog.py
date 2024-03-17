@@ -28,8 +28,11 @@ class Player:
         damage = min(monsters[self.x, self.y].hp, 10)
         monsters[self.x, self.y].hp -= damage
         print(f"Attacked {monsters[self.x, self.y].name}, damage {damage} hp")
-        print(f"{monsters[self.x, self.y].name} now has",
-                monsters[self.x, self.y].hp)
+        if monsters[self.x, self.y].hp > 0:
+            print(f"{monsters[self.x, self.y].name} now has",
+                  monsters[self.x, self.y].hp)
+        else:
+            print(monsters[self.x, self.y].name, "died")
 
 
 p1 = Player()
