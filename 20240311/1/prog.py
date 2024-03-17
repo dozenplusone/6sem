@@ -1,7 +1,6 @@
 import cmd
 import cowsay
 import shlex
-import sys
 from custom import custom
 
 
@@ -138,10 +137,7 @@ class CliRunner(cmd.Cmd):
             addmon(coords, args)
 
 
-print("<<< Welcome to Python-MUD 0.1 >>>")
+if __name__ == "__main__":
+    print("<<< Welcome to Python-MUD 0.1 >>>")
+    CliRunner().cmdloop()
 
-while cmd := sys.stdin.readline():
-    try:
-        runCmd(cmd)
-    except AssertionError as err:
-        print(err)
