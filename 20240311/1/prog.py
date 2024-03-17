@@ -67,6 +67,19 @@ def parse_addmon(args: list[str]):
     return x_y, arg
 
 
+def addmon(coords, args):
+    flag = coords in monsters
+    try:
+        monsters[coords] = Monster(**args)
+    except AssertionError as err:
+        print(err)
+        return
+    print("Added monster", args["name"], f"(hp={args['hp']}) to", coords,
+          "saying", args["text"])
+    if flag:
+        print("Replaced the old monster")
+
+
 def runCmd(cmd: str):
     try:
         cmd = shlex.split(cmd)
@@ -83,12 +96,7 @@ def runCmd(cmd: str):
             except Exception:
                 print("Invalid arguments")
                 return
-            flag = p in monsters
-            monsters[p] = Monster(**arg)
-            print("Added monster", arg["name"], f"(hp={arg['hp']}) to", p,
-                  "saying", arg["text"])
-            if flag:
-                print("Replaced the old monster")
+            addmon(p, arg)
         case _:
             print("Invalid command")
 
