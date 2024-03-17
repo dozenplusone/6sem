@@ -47,10 +47,6 @@ def encounter(x, y):
         print(cowsay.cowsay(monster.text, cow=monster.name))
 
 
-def movePlayer(player: Player, dir: str):
-    player.move(dir)
-
-
 def parse_addmon(args: list[str]):
     assert len(args) > 7 and all(w in args for w in ("hello", "hp", "coords"))
     arg = {"name": args[0]}
@@ -90,25 +86,25 @@ class CliRunner(cmd.Cmd):
         if arg:
             print("Invalid arguments")
         else:
-            movePlayer(p1, "up")
+            p1.move("up")
 
     def do_down(self, arg):
         if arg:
             print("Invalid arguments")
         else:
-            movePlayer(p1, "down")
+            p1.move("down")
 
     def do_left(self, arg):
         if arg:
             print("Invalid arguments")
         else:
-            movePlayer(p1, "left")
+            p1.move("left")
 
     def do_right(self, arg):
         if arg:
             print("Invalid arguments")
         else:
-            movePlayer(p1, "right")
+            p1.move("right")
 
     def do_addmon(self, arg):
         try:
