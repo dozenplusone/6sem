@@ -45,6 +45,12 @@ def encounter(x, y):
         print(cowsay.cowsay(monster.text, cow=monster.name))
 
 
+def movePlayer(player: Player, dir: str):
+    player.move(dir)
+    if (player.x, player.y) in monsters:
+        encounter(player.x, player.y)
+
+
 def runCmd(cmd: str):
     try:
         cmd = shlex.split(cmd)
@@ -54,9 +60,7 @@ def runCmd(cmd: str):
     match cmd:
         case ["up" | "down" | "left" | "right", *args]:
             assert not args, "Invalid arguments"
-            p1.move(cmd[0])
-            if (p1.x, p1.y) in monsters:
-                encounter(p1.x, p1.y)
+            movePlayer(p1, cmd[0])
         case ["addmon", *args]:
             assert len(args) > 7 and "coords" in args \
                     and "hp" in args and "hello" in args, "Invalid arguments"
