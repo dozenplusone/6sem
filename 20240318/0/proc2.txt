@@ -1,0 +1,56 @@
+UID          PID    PPID  C STIME TTY          TIME CMD
+root           1       0  5 12:44 ?        00:01:22 /sbin/init
+root           2       1  0 12:44 ?        00:00:00 /init
+root           6       2  0 12:44 ?        00:00:00 plan9 --control-socket 6 --log-level 4 --server-fd 7 --pipe-fd 9 --log-truncate
+root          43       1  0 12:44 ?        00:00:00 /lib/systemd/systemd-journald
+root          73       1  0 12:44 ?        00:00:00 /lib/systemd/systemd-udevd
+root          81       1  0 12:44 ?        00:00:00 snapfuse /var/lib/snapd/snaps/bare_5.snap /snap/bare/5 -o ro,nodev,allow_other,suid
+root          84       1  0 12:44 ?        00:00:00 snapfuse /var/lib/snapd/snaps/core18_2796.snap /snap/core18/2796 -o ro,nodev,allow_other,suid
+root          91       1  0 12:44 ?        00:00:00 snapfuse /var/lib/snapd/snaps/core18_2812.snap /snap/core18/2812 -o ro,nodev,allow_other,suid
+root          93       1  0 12:44 ?        00:00:00 snapfuse /var/lib/snapd/snaps/core22_1033.snap /snap/core22/1033 -o ro,nodev,allow_other,suid
+root          96       1  0 12:44 ?        00:00:03 snapfuse /var/lib/snapd/snaps/core22_1122.snap /snap/core22/1122 -o ro,nodev,allow_other,suid
+root          98       1  0 12:44 ?        00:00:00 snapfuse /var/lib/snapd/snaps/gtk-common-themes_1535.snap /snap/gtk-common-themes/1535 -o ro,nodev,allow_other,suid
+root         102       1  0 12:44 ?        00:00:00 snapfuse /var/lib/snapd/snaps/snapd_20671.snap /snap/snapd/20671 -o ro,nodev,allow_other,suid
+root         113       1  0 12:44 ?        00:00:05 snapfuse /var/lib/snapd/snaps/snapd_21184.snap /snap/snapd/21184 -o ro,nodev,allow_other,suid
+root         114       1  0 12:44 ?        00:00:00 snapfuse /var/lib/snapd/snaps/ubuntu-desktop-installer_1284.snap /snap/ubuntu-desktop-installer/1284 -o ro,nodev,allow_other,suid
+root         116       1  0 12:44 ?        00:00:04 snapfuse /var/lib/snapd/snaps/ubuntu-desktop-installer_1286.snap /snap/ubuntu-desktop-installer/1286 -o ro,nodev,allow_other,suid
+systemd+     123       1  0 12:44 ?        00:00:00 /lib/systemd/systemd-resolved
+root         206       1  0 12:44 ?        00:00:00 /usr/sbin/cron -f -P
+message+     207       1  0 12:44 ?        00:00:00 @dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+root         211       1  0 12:44 ?        00:00:00 /bin/bash /snap/ubuntu-desktop-installer/1286/bin/subiquity-server
+root         213       1  0 12:44 ?        00:00:02 /usr/lib/snapd/snapd
+root         217       1  0 12:44 ?        00:00:00 /lib/systemd/systemd-logind
+syslog       232       1  0 12:44 ?        00:00:00 /usr/sbin/rsyslogd -n -iNONE
+root         241       1  0 12:44 hvc0     00:00:00 /sbin/agetty -o -p -- \u --noclear --keep-baud - 115200,38400,9600 vt220
+root         243       1  0 12:44 tty1     00:00:00 /sbin/agetty -o -p -- \u --noclear - linux
+root         389     211  1 12:44 ?        00:00:16 /snap/ubuntu-desktop-installer/1286/usr/bin/python3.10 -m subiquity.cmd.server --use-os-prober --storage-version=2 --postinst-hooks-dir=/snap/ubuntu-desktop-installer/1286/etc/subiquity/postinst.d
+root         401       2  0 12:44 pts/1    00:00:00 /bin/login -f
+damn         404       1  0 12:44 ?        00:00:00 /lib/systemd/systemd --user
+damn         405     404  0 12:44 ?        00:00:00 (sd-pam)
+damn         411     401  0 12:44 pts/1    00:00:00 -bash
+root         420       2  0 12:44 ?        00:00:00 /init
+root         421     420  0 12:44 ?        00:00:00 /init
+damn         422     421  0 12:44 pts/0    00:00:00 sh -c "$VSCODE_WSL_EXT_LOCATION/scripts/wslServer.sh" 863d2581ecda6849923a2118d93a088b0745d9d6 stable code-server .vscode-server --host=127.0.0.1 --port=0 --connection-token=3582709259-474189960-3185470980-1716788046 --use-host-proxy --without-browser-env-var --disable-websocket-compression --accept-server-license-terms --telemetry-level=all
+damn         423     422  0 12:44 pts/0    00:00:00 sh /mnt/c/Users/MTN DEW/.vscode/extensions/ms-vscode-remote.remote-wsl-0.86.0/scripts/wslServer.sh 863d2581ecda6849923a2118d93a088b0745d9d6 stable code-server .vscode-server --host=127.0.0.1 --port=0 --connection-token=3582709259-474189960-3185470980-1716788046 --use-host-proxy --without-browser-env-var --disable-websocket-compression --accept-server-license-terms --telemetry-level=all
+damn         428     423  0 12:44 pts/0    00:00:00 sh /home/damn/.vscode-server/bin/863d2581ecda6849923a2118d93a088b0745d9d6/bin/code-server --host=127.0.0.1 --port=0 --connection-token=3582709259-474189960-3185470980-1716788046 --use-host-proxy --without-browser-env-var --disable-websocket-compression --accept-server-license-terms --telemetry-level=all
+damn         488     428  1 12:44 pts/0    00:00:26 /home/damn/.vscode-server/bin/863d2581ecda6849923a2118d93a088b0745d9d6/node /home/damn/.vscode-server/bin/863d2581ecda6849923a2118d93a088b0745d9d6/out/server-main.js --host=127.0.0.1 --port=0 --connection-token=3582709259-474189960-3185470980-1716788046 --use-host-proxy --without-browser-env-var --disable-websocket-compression --accept-server-license-terms --telemetry-level=all
+root         499       2  0 12:44 ?        00:00:00 /init
+root         500     499  0 12:44 ?        00:00:01 /init
+damn         501     500  0 12:44 pts/2    00:00:04 /home/damn/.vscode-server/bin/863d2581ecda6849923a2118d93a088b0745d9d6/node -e const net = require('net'); process.stdin.pause(); const client = net.createConnection({ host: '127.0.0.1', port: 40041 }, () => { client.pipe(process.stdout); process.stdin.pipe(client); }); client.on('close', function (hadError) { console.error(hadError ? 'Remote close with error' : 'Remote close'); process.exit(hadError ? 1 : 0); }); client.on('error', function (err) { process.stderr.write(err && (err.stack || err.message) || String(err)); });
+damn         508     488  0 12:44 pts/0    00:00:12 /home/damn/.vscode-server/bin/863d2581ecda6849923a2118d93a088b0745d9d6/node /home/damn/.vscode-server/bin/863d2581ecda6849923a2118d93a088b0745d9d6/out/bootstrap-fork --type=ptyHost --logsPath /home/damn/.vscode-server/data/logs/20240318T124414
+damn         529     488  0 12:44 pts/0    00:00:12 /home/damn/.vscode-server/bin/863d2581ecda6849923a2118d93a088b0745d9d6/node /home/damn/.vscode-server/bin/863d2581ecda6849923a2118d93a088b0745d9d6/out/bootstrap-fork --type=fileWatcher
+root         539       2  0 12:44 ?        00:00:00 /init
+root         540     539  0 12:44 ?        00:00:00 /init
+damn         541     540  0 12:44 pts/3    00:00:03 /home/damn/.vscode-server/bin/863d2581ecda6849923a2118d93a088b0745d9d6/node -e const net = require('net'); process.stdin.pause(); const client = net.createConnection({ host: '127.0.0.1', port: 40041 }, () => { client.pipe(process.stdout); process.stdin.pipe(client); }); client.on('close', function (hadError) { console.error(hadError ? 'Remote close with error' : 'Remote close'); process.exit(hadError ? 1 : 0); }); client.on('error', function (err) { process.stderr.write(err && (err.stack || err.message) || String(err)); });
+damn         556     488  6 12:44 pts/0    00:01:43 /home/damn/.vscode-server/bin/863d2581ecda6849923a2118d93a088b0745d9d6/node --dns-result-order=ipv4first /home/damn/.vscode-server/bin/863d2581ecda6849923a2118d93a088b0745d9d6/out/bootstrap-fork --type=extensionHost --transformURIs --useHostProxy=true
+damn         593     508  0 12:44 pts/4    00:00:00 /bin/bash --init-file /home/damn/.vscode-server/bin/863d2581ecda6849923a2118d93a088b0745d9d6/out/vs/workbench/contrib/terminal/browser/media/shellIntegration-bash.sh
+root         609       2  0 12:44 ?        00:00:00 /init
+root         610     609  0 12:44 ?        00:00:00 /init
+damn         612     610  0 12:44 pts/5    00:00:00 /bin/sh -c cd '/home/damn/cmc' && /bin/sh
+damn         613     612  0 12:44 pts/5    00:00:00 /bin/sh
+damn         622     613  0 12:44 pts/5    00:00:00 /home/damn/.vscode-server/bin/863d2581ecda6849923a2118d93a088b0745d9d6/node /home/damn/.vscode-remote-containers/dist/vscode-remote-containers-server-0.348.0.js
+damn         718     556  0 12:44 pts/0    00:00:02 /home/damn/.vscode-server/extensions/ms-vscode.cpptools-1.19.8-linux-x64/bin/cpptools
+damn         738     556  0 12:44 pts/0    00:00:00 /home/damn/.vscode-server/bin/863d2581ecda6849923a2118d93a088b0745d9d6/node /home/damn/.vscode-server/bin/863d2581ecda6849923a2118d93a088b0745d9d6/extensions/json-language-features/server/dist/node/jsonServerMain --node-ipc --clientProcessId=556
+root         760     389  1 12:44 ?        00:00:24 python3 /snap/ubuntu-desktop-installer/1286/usr/bin/cloud-init status --wait
+damn        8475     404  0 13:09 ?        00:00:00 /usr/bin/dbus-daemon --session --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+damn        8566     593 99 13:09 pts/4    00:00:00 ps -ef

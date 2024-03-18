@@ -1,0 +1,30 @@
+--- proc1.txt	2024-03-18 13:09:42.255485890 +0300
++++ proc2.txt	2024-03-18 13:09:52.475486398 +0300
+@@ -1,5 +1,5 @@
+ UID          PID    PPID  C STIME TTY          TIME CMD
+-root           1       0  5 12:44 ?        00:01:21 /sbin/init
++root           1       0  5 12:44 ?        00:01:22 /sbin/init
+ root           2       1  0 12:44 ?        00:00:00 /init
+ root           6       2  0 12:44 ?        00:00:00 plan9 --control-socket 6 --log-level 4 --server-fd 7 --pipe-fd 9 --log-truncate
+ root          43       1  0 12:44 ?        00:00:00 /lib/systemd/systemd-journald
+@@ -42,7 +42,7 @@
+ root         539       2  0 12:44 ?        00:00:00 /init
+ root         540     539  0 12:44 ?        00:00:00 /init
+ damn         541     540  0 12:44 pts/3    00:00:03 /home/damn/.vscode-server/bin/863d2581ecda6849923a2118d93a088b0745d9d6/node -e const net = require('net'); process.stdin.pause(); const client = net.createConnection({ host: '127.0.0.1', port: 40041 }, () => { client.pipe(process.stdout); process.stdin.pipe(client); }); client.on('close', function (hadError) { console.error(hadError ? 'Remote close with error' : 'Remote close'); process.exit(hadError ? 1 : 0); }); client.on('error', function (err) { process.stderr.write(err && (err.stack || err.message) || String(err)); });
+-damn         556     488  6 12:44 pts/0    00:01:42 /home/damn/.vscode-server/bin/863d2581ecda6849923a2118d93a088b0745d9d6/node --dns-result-order=ipv4first /home/damn/.vscode-server/bin/863d2581ecda6849923a2118d93a088b0745d9d6/out/bootstrap-fork --type=extensionHost --transformURIs --useHostProxy=true
++damn         556     488  6 12:44 pts/0    00:01:43 /home/damn/.vscode-server/bin/863d2581ecda6849923a2118d93a088b0745d9d6/node --dns-result-order=ipv4first /home/damn/.vscode-server/bin/863d2581ecda6849923a2118d93a088b0745d9d6/out/bootstrap-fork --type=extensionHost --transformURIs --useHostProxy=true
+ damn         593     508  0 12:44 pts/4    00:00:00 /bin/bash --init-file /home/damn/.vscode-server/bin/863d2581ecda6849923a2118d93a088b0745d9d6/out/vs/workbench/contrib/terminal/browser/media/shellIntegration-bash.sh
+ root         609       2  0 12:44 ?        00:00:00 /init
+ root         610     609  0 12:44 ?        00:00:00 /init
+@@ -52,9 +52,5 @@
+ damn         718     556  0 12:44 pts/0    00:00:02 /home/damn/.vscode-server/extensions/ms-vscode.cpptools-1.19.8-linux-x64/bin/cpptools
+ damn         738     556  0 12:44 pts/0    00:00:00 /home/damn/.vscode-server/bin/863d2581ecda6849923a2118d93a088b0745d9d6/node /home/damn/.vscode-server/bin/863d2581ecda6849923a2118d93a088b0745d9d6/extensions/json-language-features/server/dist/node/jsonServerMain --node-ipc --clientProcessId=556
+ root         760     389  1 12:44 ?        00:00:24 python3 /snap/ubuntu-desktop-installer/1286/usr/bin/cloud-init status --wait
+-damn        8459     508  0 13:09 pts/0    00:00:00 /bin/sh -c "/home/damn/.vscode-server/bin/863d2581ecda6849923a2118d93a088b0745d9d6/out/vs/base/node/cpuUsage.sh" 593
+-damn        8460    8459  2 13:09 pts/0    00:00:00 /bin/bash /home/damn/.vscode-server/bin/863d2581ecda6849923a2118d93a088b0745d9d6/out/vs/base/node/cpuUsage.sh 593
+-damn        8463    8460  0 13:09 pts/0    00:00:00 sleep 1
+-damn        8466     593  0 13:09 pts/4    00:00:00 /bin/bash --init-file /home/damn/.vscode-server/bin/863d2581ecda6849923a2118d93a088b0745d9d6/out/vs/workbench/contrib/terminal/browser/media/shellIntegration-bash.sh
+-damn        8467    8466  0 13:09 pts/4    00:00:00 ps -ef
+-damn        8470     593  0 13:09 pts/4    00:00:00 qgit
++damn        8475     404  0 13:09 ?        00:00:00 /usr/bin/dbus-daemon --session --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
++damn        8566     593 99 13:09 pts/4    00:00:00 ps -ef
