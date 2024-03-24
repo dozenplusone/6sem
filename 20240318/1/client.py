@@ -6,14 +6,13 @@ import sys
 from custom import custom
 
 
-def encounter(x, y):
-    if (x, y) not in monsters:
-        return
-    monster = monsters[x, y]
-    if monster.name in custom:
-        print(cowsay.cowsay(monster.text, cowfile=custom[monster.name]))
-    else:
-        print(cowsay.cowsay(monster.text, cow=monster.name))
+def move(x, y, name, text):
+    print(f"Moved to ({x}, {y})")
+    if name != "None":
+        if name in custom:
+            print(cowsay.cowsay(text, cowfile=custom[name]))
+        else:
+            print(cowsay.cowsay(text, cow=name))
 
 
 def parse_addmon(args: list[str]):
@@ -81,28 +80,28 @@ class CliRunner(cmd.Cmd):
             print("Invalid arguments")
         else:
             self.sockfd.sendall(b"move 0 -1")
-            print("Moved to", (p1.x, p1.y))
+            move(*shlex.split(self.sockfd.recv(1024).decode()))
 
     def do_down(self, arg):
         if arg:
             print("Invalid arguments")
         else:
             self.sockfd.sendall(b"move 0 1")
-            print("Moved to", (p1.x, p1.y))
+            move(*shlex.split(self.sockfd.recv(1024).decode()))
 
     def do_left(self, arg):
         if arg:
             print("Invalid arguments")
         else:
             self.sockfd.sendall(b"move -1 0")
-            print("Moved to", (p1.x, p1.y))
+            move(*shlex.split(self.sockfd.recv(1024).decode()))
 
     def do_right(self, arg):
         if arg:
             print("Invalid arguments")
         else:
             self.sockfd.sendall(b"move 1 0")
-            print("Moved to", (p1.x, p1.y))
+            move(*shlex.split(self.sockfd.recv(1024).decode()))
 
     def do_addmon(self, arg):
         try:
