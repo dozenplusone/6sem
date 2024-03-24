@@ -9,15 +9,9 @@ class Player:
         assert 0 <= x <= 9 and 0 <= y <= 9, "Invalid initial position"
         self.x, self.y = x, y
 
-    def move(self, dir: str):
-        if dir == "up":
-            self.y = self.y - 1 if self.y > 0 else 9
-        elif dir == "down":
-            self.y = self.y + 1 if self.y < 9 else 0
-        elif dir == "left":
-            self.x = self.x - 1 if self.x > 0 else 9
-        elif dir == "right":
-            self.x = self.x + 1 if self.x < 9 else 0
+    def move(self, dx, dy):
+        self.x = (self.x + dx) % 10
+        self.y = (self.y + dy) % 10
         print("Moved to", (self.x, self.y))
         encounter(self.x, self.y)
 
@@ -116,25 +110,25 @@ class CliRunner(cmd.Cmd):
         if arg:
             print("Invalid arguments")
         else:
-            p1.move("up")
+            p1.move(0, -1)
 
     def do_down(self, arg):
         if arg:
             print("Invalid arguments")
         else:
-            p1.move("down")
+            p1.move(0, 1)
 
     def do_left(self, arg):
         if arg:
             print("Invalid arguments")
         else:
-            p1.move("left")
+            p1.move(-1, 0)
 
     def do_right(self, arg):
         if arg:
             print("Invalid arguments")
         else:
-            p1.move("right")
+            p1.move(1, 0)
 
     def do_addmon(self, arg):
         try:
