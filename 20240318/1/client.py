@@ -1,6 +1,8 @@
 import cmd
 import cowsay
 import shlex
+import socket
+import sys
 from custom import custom
 
 
@@ -122,6 +124,13 @@ class CliRunner(cmd.Cmd):
             return [m for m in self.__class__.availables if m.startswith(text)]
 
 
+host = "localhost" if len(sys.argv) < 2 else sys.argv[1]
+port = 1337 if len(sys.argv) < 3 else int(sys.argv[2])
+
 if __name__ == "__main__":
     print("<<< Welcome to Python-MUD 0.1 >>>")
-    CliRunner().cmdloop()
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sockfd:
+        sockfd.connect((host, port))
+        while data := sys.stdin.buffer.readline():
+            sockfd.sendall(data)
+            print(sockfd.recv(1024).decode().rstrip())
