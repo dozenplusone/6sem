@@ -1,0 +1,44 @@
+From 53582deb4e42f57b597dd4e89953bf30bf45dd34 Mon Sep 17 00:00:00 2001
+From: Valery Zabrovsky <valthebrewer@yandex.ru>
+Date: Sun, 24 Mar 2024 15:05:37 +0300
+Subject: [PATCH 04/16] Pass damage, not weapon name to Player.attack()
+
+---
+ 20240318/1/prog.py | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/20240318/1/prog.py b/20240318/1/prog.py
+index 4195cb6..a79a413 100644
+--- a/20240318/1/prog.py
++++ b/20240318/1/prog.py
+@@ -14,12 +14,12 @@ class Player:
+         self.y = (self.y + dy) % 10
+         encounter(self.x, self.y)
+ 
+-    def attack(self, name, weapon):
++    def attack(self, name, damage):
+         if ((self.x, self.y) not in monsters
+                 or monsters[self.x, self.y].name != name):
+             print(f"No {name} here")
+             return
+-        damage = min(monsters[self.x, self.y].hp, weapons[weapon])
++        damage = min(monsters[self.x, self.y].hp, damage)
+         monsters[self.x, self.y].hp -= damage
+         print(f"Attacked {monsters[self.x, self.y].name}, damage {damage} hp")
+         if monsters[self.x, self.y].hp > 0:
+@@ -92,10 +92,10 @@ weapons = {"sword": 10, "spear": 15, "axe": 20}
+ 
+ def parse_attack(args: list[str]):
+     assert len(args) > 0 and len(args) != 2, "Invalid arguments"
+-    ans = {"weapon": "sword", "name": args[0]}
++    ans = {"damage": 10, "name": args[0]}
+     if len(args) > 2 and "with" == args[1]:
+         assert args[2] in weapons, "Unknown weapon"
+-        ans["weapon"] = args[2]
++        ans["damage"] = weapons[args[2]]
+     return ans
+ 
+ 
+-- 
+2.40.1
+

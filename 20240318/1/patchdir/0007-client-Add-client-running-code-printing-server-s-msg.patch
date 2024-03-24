@@ -1,0 +1,41 @@
+From ad7c38281b06815a1465e2b86df5dc66cc7a3592 Mon Sep 17 00:00:00 2001
+From: Valery Zabrovsky <valthebrewer@yandex.ru>
+Date: Sun, 24 Mar 2024 15:56:06 +0300
+Subject: [PATCH 07/16] client: Add client-running code (printing server's msg
+ for now)
+
+---
+ 20240318/1/client.py | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
+
+diff --git a/20240318/1/client.py b/20240318/1/client.py
+index b0de370..a0cd4cc 100644
+--- a/20240318/1/client.py
++++ b/20240318/1/client.py
+@@ -1,6 +1,8 @@
+ import cmd
+ import cowsay
+ import shlex
++import socket
++import sys
+ from custom import custom
+ 
+ 
+@@ -122,6 +124,13 @@ class CliRunner(cmd.Cmd):
+             return [m for m in self.__class__.availables if m.startswith(text)]
+ 
+ 
++host = "localhost" if len(sys.argv) < 2 else sys.argv[1]
++port = 1337 if len(sys.argv) < 3 else int(sys.argv[2])
++
+ if __name__ == "__main__":
+     print("<<< Welcome to Python-MUD 0.1 >>>")
+-    CliRunner().cmdloop()
++    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sockfd:
++        sockfd.connect((host, port))
++        while data := sys.stdin.buffer.readline():
++            sockfd.sendall(data)
++            print(sockfd.recv(1024).decode().rstrip())
+-- 
+2.40.1
+

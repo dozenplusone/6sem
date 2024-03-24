@@ -1,0 +1,46 @@
+From 78e6e5d0979c0669f00fe4a65f28af50ff627805 Mon Sep 17 00:00:00 2001
+From: Valery Zabrovsky <valthebrewer@yandex.ru>
+Date: Sun, 24 Mar 2024 15:51:57 +0300
+Subject: [PATCH 06/16] server: Add server-running code (echoing for now)
+
+---
+ 20240318/1/server.py | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
+
+diff --git a/20240318/1/server.py b/20240318/1/server.py
+index 2582ce0..64e9fa4 100644
+--- a/20240318/1/server.py
++++ b/20240318/1/server.py
+@@ -1,6 +1,8 @@
+ import cmd
+ import cowsay
+ import shlex
++import socket
++import sys
+ from custom import custom
+ 
+ 
+@@ -62,3 +64,20 @@ def addmon(coords, args):
+           "saying", args["text"])
+     if flag:
+         print("Replaced the old monster")
++
++
++def serve(conn: socket.socket, addr):
++    print(f"Connected with {addr[0]}:{addr[1]}")
++    with conn:
++        while data := conn.recv(1024):
++            conn.sendall(data)
++    print(f"Disconnected from {addr[0]}:{addr[1]}")
++
++
++host = "localhost" if len(sys.argv) < 2 else sys.argv[1]
++port = 1337 if len(sys.argv) < 3 else int(sys.argv[2])
++
++with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sockfd:
++    sockfd.bind((host, port))
++    sockfd.listen()
++    serve(*sockfd.accept())
+-- 
+2.40.1
+

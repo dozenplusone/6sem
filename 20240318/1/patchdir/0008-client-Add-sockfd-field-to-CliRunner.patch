@@ -1,0 +1,27 @@
+From 64dd3d9bc0b71cb0964c5f75a3a9d4f7a7bf15ff Mon Sep 17 00:00:00 2001
+From: Valery Zabrovsky <valthebrewer@yandex.ru>
+Date: Sun, 24 Mar 2024 15:58:18 +0300
+Subject: [PATCH 08/16] client: Add sockfd field to CliRunner
+
+---
+ 20240318/1/client.py | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/20240318/1/client.py b/20240318/1/client.py
+index a0cd4cc..fdd8c5a 100644
+--- a/20240318/1/client.py
++++ b/20240318/1/client.py
+@@ -68,6 +68,10 @@ class CliRunner(cmd.Cmd):
+     prompt = ''
+     availables = list(custom) + cowsay.list_cows()
+ 
++    def __init__(self, sockfd: socket.socket):
++        super().__init__()
++        self.sockfd = sockfd
++
+     def do_EOF(self, arg):
+         print()
+         return True
+-- 
+2.40.1
+

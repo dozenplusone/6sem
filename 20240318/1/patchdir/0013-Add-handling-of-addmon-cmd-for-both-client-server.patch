@@ -1,0 +1,86 @@
+From dbd7246a150a089d9a40a2e4153e3b96c21a4a35 Mon Sep 17 00:00:00 2001
+From: Valery Zabrovsky <valthebrewer@yandex.ru>
+Date: Sun, 24 Mar 2024 17:11:22 +0300
+Subject: [PATCH 13/16] Add handling of 'addmon' cmd for both client & server
+
+---
+ 20240318/1/client.py | 16 +++++++---------
+ 20240318/1/server.py | 19 ++++++++-----------
+ 2 files changed, 15 insertions(+), 20 deletions(-)
+
+diff --git a/20240318/1/client.py b/20240318/1/client.py
+index ab0fbe8..263edf5 100644
+--- a/20240318/1/client.py
++++ b/20240318/1/client.py
+@@ -38,16 +38,10 @@ def parse_addmon(args: list[str]):
+     return x_y, arg
+ 
+ 
+-def addmon(coords, args):
+-    flag = coords in monsters
+-    try:
+-        monsters[coords] = Monster(**args)
+-    except AssertionError as err:
+-        print(err)
+-        return
++def addmon(coords, args, is_replaced):
+     print("Added monster", args["name"], f"(hp={args['hp']}) to", coords,
+           "saying", args["text"])
+-    if flag:
++    if is_replaced == 'T':
+         print("Replaced the old monster")
+ 
+ 
+@@ -109,7 +103,11 @@ class CliRunner(cmd.Cmd):
+         except AssertionError as err:
+             print(err)
+         else:
+-            addmon(coords, args)
++            self.sockfd.sendall(shlex.join(
++                ("addmon", args["name"], args["text"],
++                 str(args["hp"]), str(coords[0]), str(coords[1]))
++            ).encode())
++            addmon(coords, args, self.sockfd.recv(1024).decode())
+ 
+     def do_attack(self, arg):
+         try:
+diff --git a/20240318/1/server.py b/20240318/1/server.py
+index fa16747..8916a09 100644
+--- a/20240318/1/server.py
++++ b/20240318/1/server.py
+@@ -49,17 +49,10 @@ def encounter(x, y):
+     return monsters[x, y].name, monsters[x, y].text
+ 
+ 
+-def addmon(coords, args):
+-    flag = coords in monsters
+-    try:
+-        monsters[coords] = Monster(**args)
+-    except AssertionError as err:
+-        print(err)
+-        return
+-    print("Added monster", args["name"], f"(hp={args['hp']}) to", coords,
+-          "saying", args["text"])
+-    if flag:
+-        print("Replaced the old monster")
++def addmon(name, text, hp, x, y):
++    flag = (x, y) in monsters
++    monsters[x, y] = Monster(name, text, hp)
++    return str(flag)[0]
+ 
+ 
+ def serve(conn: socket.socket, addr):
+@@ -71,6 +64,10 @@ def serve(conn: socket.socket, addr):
+                     conn.sendall(
+                         shlex.join(p1.move(int(dx), int(dy))).encode()
+                     )
++                case ["addmon", name, text, hp, x, y]:
++                    conn.sendall(addmon(
++                        name, text, int(hp), int(x), int(y)
++                    ).encode())
+     print(f"Disconnected from {addr[0]}:{addr[1]}")
+ 
+ 
+-- 
+2.40.1
+

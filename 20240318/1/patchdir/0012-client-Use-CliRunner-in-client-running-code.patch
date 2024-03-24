@@ -1,0 +1,24 @@
+From 89ae29c290785526b9b79ea4ebd7792ebc7558c7 Mon Sep 17 00:00:00 2001
+From: Valery Zabrovsky <valthebrewer@yandex.ru>
+Date: Sun, 24 Mar 2024 16:54:55 +0300
+Subject: [PATCH 12/16] client: Use CliRunner in client-running code
+
+---
+ 20240318/1/client.py | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/20240318/1/client.py b/20240318/1/client.py
+index ab41ac4..ab0fbe8 100644
+--- a/20240318/1/client.py
++++ b/20240318/1/client.py
+@@ -134,6 +134,4 @@ if __name__ == "__main__":
+     print("<<< Welcome to Python-MUD 0.1 >>>")
+     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sockfd:
+         sockfd.connect((host, port))
+-        while data := sys.stdin.buffer.readline():
+-            sockfd.sendall(data)
+-            print(sockfd.recv(1024).decode().rstrip())
++        CliRunner(sockfd).cmdloop()
+-- 
+2.40.1
+

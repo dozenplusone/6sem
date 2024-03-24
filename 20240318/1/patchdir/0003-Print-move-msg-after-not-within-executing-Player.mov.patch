@@ -1,0 +1,54 @@
+From e35c80263d19ee9658ee501ec6cb2e249a8b9ddd Mon Sep 17 00:00:00 2001
+From: Valery Zabrovsky <valthebrewer@yandex.ru>
+Date: Sun, 24 Mar 2024 14:45:54 +0300
+Subject: [PATCH 03/16] Print move msg after, not within executing
+ Player.move()
+
+---
+ 20240318/1/prog.py | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/20240318/1/prog.py b/20240318/1/prog.py
+index 61b9d92..4195cb6 100644
+--- a/20240318/1/prog.py
++++ b/20240318/1/prog.py
+@@ -12,7 +12,6 @@ class Player:
+     def move(self, dx, dy):
+         self.x = (self.x + dx) % 10
+         self.y = (self.y + dy) % 10
+-        print("Moved to", (self.x, self.y))
+         encounter(self.x, self.y)
+ 
+     def attack(self, name, weapon):
+@@ -113,24 +112,28 @@ class CliRunner(cmd.Cmd):
+             print("Invalid arguments")
+         else:
+             p1.move(0, -1)
++            print("Moved to", (p1.x, p1.y))
+ 
+     def do_down(self, arg):
+         if arg:
+             print("Invalid arguments")
+         else:
+             p1.move(0, 1)
++            print("Moved to", (p1.x, p1.y))
+ 
+     def do_left(self, arg):
+         if arg:
+             print("Invalid arguments")
+         else:
+             p1.move(-1, 0)
++            print("Moved to", (p1.x, p1.y))
+ 
+     def do_right(self, arg):
+         if arg:
+             print("Invalid arguments")
+         else:
+             p1.move(1, 0)
++            print("Moved to", (p1.x, p1.y))
+ 
+     def do_addmon(self, arg):
+         try:
+-- 
+2.40.1
+

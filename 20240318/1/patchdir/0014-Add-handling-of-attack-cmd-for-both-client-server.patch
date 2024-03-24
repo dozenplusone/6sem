@@ -1,0 +1,95 @@
+From 6593b4dd34130ebd5c24488bde8d03b019891054 Mon Sep 17 00:00:00 2001
+From: Valery Zabrovsky <valthebrewer@yandex.ru>
+Date: Sun, 24 Mar 2024 17:41:32 +0300
+Subject: [PATCH 14/16] Add handling of 'attack' cmd for both client & server
+
+---
+ 20240318/1/client.py | 21 ++++++++++++++++++---
+ 20240318/1/server.py | 21 +++++++++++----------
+ 2 files changed, 29 insertions(+), 13 deletions(-)
+
+diff --git a/20240318/1/client.py b/20240318/1/client.py
+index 263edf5..d37bc08 100644
+--- a/20240318/1/client.py
++++ b/20240318/1/client.py
+@@ -57,6 +57,18 @@ def parse_attack(args: list[str]):
+     return ans
+ 
+ 
++def attack(name, hp, damage):
++    hp, damage = int(hp), int(damage)
++    if hp == -1:
++        print(f"No {name} here")
++        return
++    print(f"Attacked {name}, damage {damage} hp")
++    if hp > 0:
++        print(f"{name} now has", hp)
++    else:
++        print(name, "died")
++
++
+ class CliRunner(cmd.Cmd):
+     prompt = ''
+     availables = list(custom) + cowsay.list_cows()
+@@ -112,10 +124,13 @@ class CliRunner(cmd.Cmd):
+     def do_attack(self, arg):
+         try:
+             args = parse_attack(shlex.split(arg))
+-        except Exception as exc:
+-            print(exc)
++        except AssertionError as err:
++            print(err)
+         else:
+-            p1.attack(**args)
++            self.sockfd.sendall(
++                f"attack {args['name']} {args['damage']}".encode()
++            )
++            attack(args["name"], *shlex.split(self.sockfd.recv(1024).decode()))
+ 
+     def complete_attack(self, text, line, begidx, endidx):
+         last = shlex.split(line)[-2 if text else -1]
+diff --git a/20240318/1/server.py b/20240318/1/server.py
+index 8916a09..258ec59 100644
+--- a/20240318/1/server.py
++++ b/20240318/1/server.py
+@@ -17,19 +17,16 @@ class Player:
+         return str(self.x), str(self.y), *encounter(self.x, self.y)
+ 
+     def attack(self, name, damage):
+-        if ((self.x, self.y) not in monsters
+-                or monsters[self.x, self.y].name != name):
+-            print(f"No {name} here")
+-            return
++        if (self.x, self.y) not in monsters:
++            return '-1', '-1'
++        if monsters[self.x, self.y].name != name:
++            return '-1', '-1'
+         damage = min(monsters[self.x, self.y].hp, damage)
+         monsters[self.x, self.y].hp -= damage
+-        print(f"Attacked {monsters[self.x, self.y].name}, damage {damage} hp")
+-        if monsters[self.x, self.y].hp > 0:
+-            print(f"{monsters[self.x, self.y].name} now has",
+-                  monsters[self.x, self.y].hp)
+-        else:
+-            print(monsters[self.x, self.y].name, "died")
++        if monsters[self.x, self.y].hp == 0:
+             del monsters[self.x, self.y]
++            return '0', str(damage)
++        return str(monsters[self.x, self.y].hp), str(damage)
+ 
+ 
+ p1 = Player()
+@@ -68,6 +65,10 @@ def serve(conn: socket.socket, addr):
+                     conn.sendall(addmon(
+                         name, text, int(hp), int(x), int(y)
+                     ).encode())
++                case ["attack", name, damage]:
++                    conn.sendall(
++                        shlex.join(p1.attack(name, int(damage))).encode()
++                    )
+     print(f"Disconnected from {addr[0]}:{addr[1]}")
+ 
+ 
+-- 
+2.40.1
+

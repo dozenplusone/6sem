@@ -1,0 +1,50 @@
+From e0d66e3284cb56e23f6e8b60cf1651c778fb9e35 Mon Sep 17 00:00:00 2001
+From: Valery Zabrovsky <valthebrewer@yandex.ru>
+Date: Sun, 24 Mar 2024 14:40:30 +0300
+Subject: [PATCH 02/16] Handle unknown monster when argparsing instead of
+ creating Monster
+
+---
+ 20240318/1/prog.py | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
+
+diff --git a/20240318/1/prog.py b/20240318/1/prog.py
+index 7e83df6..61b9d92 100644
+--- a/20240318/1/prog.py
++++ b/20240318/1/prog.py
+@@ -36,8 +36,6 @@ p1 = Player()
+ 
+ class Monster:
+     def __init__(self, name: str, text: str, hp: int):
+-        assert name in cowsay.list_cows() or name in custom, \
+-                "Cannot add unknown monster"
+         self.name, self.text, self.hp = name, text, hp
+ 
+ 
+@@ -55,7 +53,11 @@ def encounter(x, y):
+ 
+ 
+ def parse_addmon(args: list[str]):
+-    assert len(args) > 7 and all(w in args for w in ("hello", "hp", "coords"))
++    assert len(args) > 7 \
++        and all(w in args for w in ("hello", "hp", "coords")), \
++        "Invalid arguments"
++    assert args[0] in cowsay.list_cows() or args[0] in custom, \
++        "Cannot add unknown monster"
+     arg = {"name": args[0]}
+     i = 1
+     while i < len(args):
+@@ -133,8 +135,8 @@ class CliRunner(cmd.Cmd):
+     def do_addmon(self, arg):
+         try:
+             coords, args = parse_addmon(shlex.split(arg))
+-        except Exception:
+-            print("Invalid arguments")
++        except AssertionError as err:
++            print(err)
+         else:
+             addmon(coords, args)
+ 
+-- 
+2.40.1
+

@@ -1,0 +1,26 @@
+From dae641225e14bcada81308f57228035b38137eec Mon Sep 17 00:00:00 2001
+From: Valery Zabrovsky <valthebrewer@yandex.ru>
+Date: Sun, 24 Mar 2024 17:42:21 +0300
+Subject: [PATCH 15/16] client: Add assertion text when new monster coords out
+ of bounds
+
+---
+ 20240318/1/client.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/20240318/1/client.py b/20240318/1/client.py
+index d37bc08..c6bc642 100644
+--- a/20240318/1/client.py
++++ b/20240318/1/client.py
+@@ -32,7 +32,7 @@ def parse_addmon(args: list[str]):
+             i += 1
+         elif args[i] == "coords":
+             x_y = int(args[i + 1]), int(args[i + 2])
+-            assert 0 <= x_y[0] <= 9 and 0 <= x_y[1] <= 9
++            assert 0 <= x_y[0] <= 9 and 0 <= x_y[1] <= 9, "Invalid arguments"
+             i += 2
+         i += 1
+     return x_y, arg
+-- 
+2.40.1
+
