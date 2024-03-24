@@ -68,6 +68,10 @@ class CliRunner(cmd.Cmd):
     prompt = ''
     availables = list(custom) + cowsay.list_cows()
 
+    def __init__(self, sockfd: socket.socket):
+        super().__init__()
+        self.sockfd = sockfd
+
     def do_EOF(self, arg):
         print()
         return True
