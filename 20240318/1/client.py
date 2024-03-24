@@ -57,6 +57,18 @@ def parse_attack(args: list[str]):
     return ans
 
 
+def attack(name, hp, damage):
+    hp, damage = int(hp), int(damage)
+    if hp == -1:
+        print(f"No {name} here")
+        return
+    print(f"Attacked {name}, damage {damage} hp")
+    if hp > 0:
+        print(f"{name} now has", hp)
+    else:
+        print(name, "died")
+
+
 class CliRunner(cmd.Cmd):
     prompt = ''
     availables = list(custom) + cowsay.list_cows()
@@ -112,10 +124,13 @@ class CliRunner(cmd.Cmd):
     def do_attack(self, arg):
         try:
             args = parse_attack(shlex.split(arg))
-        except Exception as exc:
-            print(exc)
+        except AssertionError as err:
+            print(err)
         else:
-            p1.attack(**args)
+            self.sockfd.sendall(
+                f"attack {args['name']} {args['damage']}".encode()
+            )
+            attack(args["name"], *shlex.split(self.sockfd.recv(1024).decode()))
 
     def complete_attack(self, text, line, begidx, endidx):
         last = shlex.split(line)[-2 if text else -1]
