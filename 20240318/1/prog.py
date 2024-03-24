@@ -36,8 +36,6 @@ p1 = Player()
 
 class Monster:
     def __init__(self, name: str, text: str, hp: int):
-        assert name in cowsay.list_cows() or name in custom, \
-                "Cannot add unknown monster"
         self.name, self.text, self.hp = name, text, hp
 
 
@@ -55,7 +53,11 @@ def encounter(x, y):
 
 
 def parse_addmon(args: list[str]):
-    assert len(args) > 7 and all(w in args for w in ("hello", "hp", "coords"))
+    assert len(args) > 7 \
+        and all(w in args for w in ("hello", "hp", "coords")), \
+        "Invalid arguments"
+    assert args[0] in cowsay.list_cows() or args[0] in custom, \
+        "Cannot add unknown monster"
     arg = {"name": args[0]}
     i = 1
     while i < len(args):
@@ -133,8 +135,8 @@ class CliRunner(cmd.Cmd):
     def do_addmon(self, arg):
         try:
             coords, args = parse_addmon(shlex.split(arg))
-        except Exception:
-            print("Invalid arguments")
+        except AssertionError as err:
+            print(err)
         else:
             addmon(coords, args)
 
