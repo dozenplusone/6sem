@@ -1,5 +1,3 @@
-import cmd
-import cowsay
 import shlex
 import socket
 import sys
