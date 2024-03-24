@@ -32,7 +32,7 @@ def parse_addmon(args: list[str]):
             i += 1
         elif args[i] == "coords":
             x_y = int(args[i + 1]), int(args[i + 2])
-            assert 0 <= x_y[0] <= 9 and 0 <= x_y[1] <= 9
+            assert 0 <= x_y[0] <= 9 and 0 <= x_y[1] <= 9, "Invalid arguments"
             i += 2
         i += 1
     return x_y, arg
