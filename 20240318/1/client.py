@@ -134,6 +134,4 @@ if __name__ == "__main__":
     print("<<< Welcome to Python-MUD 0.1 >>>")
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sockfd:
         sockfd.connect((host, port))
-        while data := sys.stdin.buffer.readline():
-            sockfd.sendall(data)
-            print(sockfd.recv(1024).decode().rstrip())
+        CliRunner(sockfd).cmdloop()
