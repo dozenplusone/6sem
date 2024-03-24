@@ -17,19 +17,16 @@ class Player:
         return str(self.x), str(self.y), *encounter(self.x, self.y)
 
     def attack(self, name, damage):
-        if ((self.x, self.y) not in monsters
-                or monsters[self.x, self.y].name != name):
-            print(f"No {name} here")
-            return
+        if (self.x, self.y) not in monsters:
+            return '-1', '-1'
+        if monsters[self.x, self.y].name != name:
+            return '-1', '-1'
         damage = min(monsters[self.x, self.y].hp, damage)
         monsters[self.x, self.y].hp -= damage
-        print(f"Attacked {monsters[self.x, self.y].name}, damage {damage} hp")
-        if monsters[self.x, self.y].hp > 0:
-            print(f"{monsters[self.x, self.y].name} now has",
-                  monsters[self.x, self.y].hp)
-        else:
-            print(monsters[self.x, self.y].name, "died")
+        if monsters[self.x, self.y].hp == 0:
             del monsters[self.x, self.y]
+            return '0', str(damage)
+        return str(monsters[self.x, self.y].hp), str(damage)
 
 
 p1 = Player()
@@ -68,6 +65,10 @@ def serve(conn: socket.socket, addr):
                     conn.sendall(addmon(
                         name, text, int(hp), int(x), int(y)
                     ).encode())
+                case ["attack", name, damage]:
+                    conn.sendall(
+                        shlex.join(p1.attack(name, int(damage))).encode()
+                    )
     print(f"Disconnected from {addr[0]}:{addr[1]}")
 
 
