@@ -1,6 +1,8 @@
 import cmd
 import cowsay
 import shlex
+import socket
+import sys
 from custom import custom
 
 
@@ -62,3 +64,20 @@ def addmon(coords, args):
           "saying", args["text"])
     if flag:
         print("Replaced the old monster")
+
+
+def serve(conn: socket.socket, addr):
+    print(f"Connected with {addr[0]}:{addr[1]}")
+    with conn:
+        while data := conn.recv(1024):
+            conn.sendall(data)
+    print(f"Disconnected from {addr[0]}:{addr[1]}")
+
+
+host = "localhost" if len(sys.argv) < 2 else sys.argv[1]
+port = 1337 if len(sys.argv) < 3 else int(sys.argv[2])
+
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sockfd:
+    sockfd.bind((host, port))
+    sockfd.listen()
+    serve(*sockfd.accept())
