@@ -49,17 +49,10 @@ def encounter(x, y):
     return monsters[x, y].name, monsters[x, y].text
 
 
-def addmon(coords, args):
-    flag = coords in monsters
-    try:
-        monsters[coords] = Monster(**args)
-    except AssertionError as err:
-        print(err)
-        return
-    print("Added monster", args["name"], f"(hp={args['hp']}) to", coords,
-          "saying", args["text"])
-    if flag:
-        print("Replaced the old monster")
+def addmon(name, text, hp, x, y):
+    flag = (x, y) in monsters
+    monsters[x, y] = Monster(name, text, hp)
+    return str(flag)[0]
 
 
 def serve(conn: socket.socket, addr):
@@ -71,6 +64,10 @@ def serve(conn: socket.socket, addr):
                     conn.sendall(
                         shlex.join(p1.move(int(dx), int(dy))).encode()
                     )
+                case ["addmon", name, text, hp, x, y]:
+                    conn.sendall(addmon(
+                        name, text, int(hp), int(x), int(y)
+                    ).encode())
     print(f"Disconnected from {addr[0]}:{addr[1]}")
 
 

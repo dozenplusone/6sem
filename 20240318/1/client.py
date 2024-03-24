@@ -38,16 +38,10 @@ def parse_addmon(args: list[str]):
     return x_y, arg
 
 
-def addmon(coords, args):
-    flag = coords in monsters
-    try:
-        monsters[coords] = Monster(**args)
-    except AssertionError as err:
-        print(err)
-        return
+def addmon(coords, args, is_replaced):
     print("Added monster", args["name"], f"(hp={args['hp']}) to", coords,
           "saying", args["text"])
-    if flag:
+    if is_replaced == 'T':
         print("Replaced the old monster")
 
 
@@ -109,7 +103,11 @@ class CliRunner(cmd.Cmd):
         except AssertionError as err:
             print(err)
         else:
-            addmon(coords, args)
+            self.sockfd.sendall(shlex.join(
+                ("addmon", args["name"], args["text"],
+                 str(args["hp"]), str(coords[0]), str(coords[1]))
+            ).encode())
+            addmon(coords, args, self.sockfd.recv(1024).decode())
 
     def do_attack(self, arg):
         try:
