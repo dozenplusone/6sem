@@ -80,28 +80,28 @@ class CliRunner(cmd.Cmd):
         if arg:
             print("Invalid arguments")
         else:
-            p1.move(0, -1)
+            self.sockfd.sendall(b"move 0 -1")
             print("Moved to", (p1.x, p1.y))
 
     def do_down(self, arg):
         if arg:
             print("Invalid arguments")
         else:
-            p1.move(0, 1)
+            self.sockfd.sendall(b"move 0 1")
             print("Moved to", (p1.x, p1.y))
 
     def do_left(self, arg):
         if arg:
             print("Invalid arguments")
         else:
-            p1.move(-1, 0)
+            self.sockfd.sendall(b"move -1 0")
             print("Moved to", (p1.x, p1.y))
 
     def do_right(self, arg):
         if arg:
             print("Invalid arguments")
         else:
-            p1.move(1, 0)
+            self.sockfd.sendall(b"move 1 0")
             print("Moved to", (p1.x, p1.y))
 
     def do_addmon(self, arg):
