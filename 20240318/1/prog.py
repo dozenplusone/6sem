@@ -14,12 +14,12 @@ class Player:
         self.y = (self.y + dy) % 10
         encounter(self.x, self.y)
 
-    def attack(self, name, weapon):
+    def attack(self, name, damage):
         if ((self.x, self.y) not in monsters
                 or monsters[self.x, self.y].name != name):
             print(f"No {name} here")
             return
-        damage = min(monsters[self.x, self.y].hp, weapons[weapon])
+        damage = min(monsters[self.x, self.y].hp, damage)
         monsters[self.x, self.y].hp -= damage
         print(f"Attacked {monsters[self.x, self.y].name}, damage {damage} hp")
         if monsters[self.x, self.y].hp > 0:
@@ -92,10 +92,10 @@ weapons = {"sword": 10, "spear": 15, "axe": 20}
 
 def parse_attack(args: list[str]):
     assert len(args) > 0 and len(args) != 2, "Invalid arguments"
-    ans = {"weapon": "sword", "name": args[0]}
+    ans = {"damage": 10, "name": args[0]}
     if len(args) > 2 and "with" == args[1]:
         assert args[2] in weapons, "Unknown weapon"
-        ans["weapon"] = args[2]
+        ans["damage"] = weapons[args[2]]
     return ans
 
 
