@@ -14,7 +14,7 @@ class Player:
     def move(self, dx, dy):
         self.x = (self.x + dx) % 10
         self.y = (self.y + dy) % 10
-        encounter(self.x, self.y)
+        return str(self.x), str(self.y), *encounter(self.x, self.y)
 
     def attack(self, name, damage):
         if ((self.x, self.y) not in monsters
@@ -45,12 +45,8 @@ monsters = {}
 
 def encounter(x, y):
     if (x, y) not in monsters:
-        return
-    monster = monsters[x, y]
-    if monster.name in custom:
-        print(cowsay.cowsay(monster.text, cowfile=custom[monster.name]))
-    else:
-        print(cowsay.cowsay(monster.text, cow=monster.name))
+        return "None", "None"
+    return monsters[x, y].name, monsters[x, y].text
 
 
 def addmon(coords, args):
@@ -70,7 +66,11 @@ def serve(conn: socket.socket, addr):
     print(f"Connected with {addr[0]}:{addr[1]}")
     with conn:
         while data := conn.recv(1024):
-            conn.sendall(data)
+            match shlex.split(data.decode()):
+                case ["move", dx, dy]:
+                    conn.sendall(
+                        shlex.join(p1.move(int(dx), int(dy))).encode()
+                    )
     print(f"Disconnected from {addr[0]}:{addr[1]}")
 
 
